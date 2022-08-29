@@ -38,3 +38,5 @@ typings
 .node_repl_history
 
 dist
+
+.DS_Store
