@@ -1,7 +1,7 @@
 import config from 'config';
 import { fetchWrapper } from '@/_helpers';
 
-const baseUrl = `${config.apiUrl}/domain`;
+const baseUrl = `${config.apiUrl}/domains`;
 
 export const domainService = {
     getAll,
