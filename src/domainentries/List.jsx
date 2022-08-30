@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { domainService } from '@/_services';
+import { domainEntrieService } from '@/_services';
 
 function List({ match }) {
     const { path } = match;
-    const [domains, setDomains] = useState(null);
+    const [domains, setDomainEntrie] = useState(null);
 
     useEffect(() => {
-        domainService.getAll().then(x => setDomains(x));
+        domainEntrieService.getAll().then(x => setDomainEntrie(x));
     }, []);
 
-    function deleteDomain(id) {
-        setDomains(domains.map(x => {
+    function deleteDomainEntrie(id) {
+        setDomainEntrie(domains.map(x => {
             if (x.id === id) { x.isDeleting = true; }
             return x;
         }));
-        domainService.delete(id).then(() => {
-            setDomains(domains => domains.filter(x => x.id !== id));
+        domainEntrieService.delete(id).then(() => {
+            setDomainEntrie(domains => domains.filter(x => x.id !== id));
         });
     }
 
     // prepared for zone entries
-    function editDomain(id) {
-        setDomains(domains.map(x => {
+    function editDomainEntrie(id) {
+        setDomainEntrie(domains.map(x => {
             if (x.id === id) { x.isEditing = true; }
             return x;
         }));
@@ -35,12 +35,12 @@ function List({ match }) {
 
     return (
         <div>
-            <h1>Domain</h1>
-            <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add Domain</Link>
+            <h1>Domain Entries</h1>
+            <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add record</Link>
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '10%' }}>DHid</th>
+                        <th style={{ width: '10%' }}>id</th>
                         <th style={{ width: '20%' }}>Domain</th>
                         <th style={{ width: '10%' }}></th>
                     </tr>

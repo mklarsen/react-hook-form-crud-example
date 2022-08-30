@@ -6,6 +6,7 @@ import { Nav, Alert } from '@/_components';
 import { Home } from '@/home';
 import { Users } from '@/users';
 import { Domains } from '@/domains';
+import { Domainentries } from '@/domainentries';
 
 function App() {
     const { pathname } = useLocation();
@@ -20,6 +21,7 @@ function App() {
                     <Route exact path="/" component={Home} />
                     <Route path="/users" component={Users} />
                     <Route path="/domains" component={Domains} />
+                    <Route path="/domainentries" component={Domainentries} />
                     <Redirect from="*" to="/" />
                 </Switch>
             </div>

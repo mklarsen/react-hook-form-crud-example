@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import { domainService, alertService } from '@/_services';
+import { domainEntrieService, alertService } from '@/_services';
 
 function AddEdit({ history, match }) {
     const { id } = match.params;

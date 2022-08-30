@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { List } from './List';
 import { AddEdit } from './AddEdit';
 
-function Domains({ match }) {
+function Domainentries({ match }) {
     const { path } = match;
 
     return (
@@ -16,4 +16,4 @@ function Domains({ match }) {
     );
 }
 
-export { Domains };
+export { Domainentries };
