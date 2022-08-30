@@ -14,8 +14,17 @@ function AddEdit({ history, match }) {
     const validationSchema = Yup.object().shape({
         domain: Yup.string()
             .required('Domain is required'),
-        domhand: Yup.string()
-            .required('Domain Handle is required'),
+        name: Yup.string()
+            .nullable()
+            .notRequired()
+            .transform(x => x === '' ? undefined : x)
+            .min(2, 'Name(Record) if required, it need to be at least 2 characters'),
+        ttl: Yup.string()
+            .required('TTL is required'),
+        type: Yup.string()
+            .required('Record Type is required'),
+        record: Yup.string()
+            .required('Record is required'),
     });
 
     // functions to build form returned by useForm() hook
@@ -25,23 +34,23 @@ function AddEdit({ history, match }) {
 
     function onSubmit(data) {
         return isAddMode
-            ? createDomain(data)
-            : updateDomain(id, data);
+            ? createDomainEntrie(data)
+            : updateDomainEntrie(id, data);
     }
 
-    function createDomain(data) {
-        return domainService.create(data)
+    function createDomainEntrie(data) {
+        return domainEntrieService.create(data)
             .then(() => {
-                alertService.success('Domain added', { keepAfterRouteChange: true });
+                alertService.success('Entrie added', { keepAfterRouteChange: true });
                 history.push('.');
             })
             .catch(alertService.error);
     }
 
-    function updateDomain(id, data) {
-        return domainService.update(id, data)
+    function updateDomainEntrie(id, data) {
+        return domainEntrieService.update(id, data)
             .then(() => {
-                alertService.success('Domain updated', { keepAfterRouteChange: true });
+                alertService.success('Entrie updated', { keepAfterRouteChange: true });
                 history.push('..');
             })
             .catch(alertService.error);
@@ -50,8 +59,8 @@ function AddEdit({ history, match }) {
     useEffect(() => {
         if (!isAddMode) {
             // get user and set form fields
-            domainService.getById(id).then(domain => {
-                const fields = ['domain', 'domhand'];
+            domainEntrieService.getById(id).then(domain => {
+                const fields = ['domain', 'name', 'ttl', 'type', 'record'];
                 fields.forEach(field => setValue(field, domain[field]));
             });
         }
@@ -59,18 +68,38 @@ function AddEdit({ history, match }) {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
-            <h1>{isAddMode ? 'Add Domain' : 'Edit Domain'}</h1>
+            <h1>{isAddMode ? 'Add Record' : 'Edit Record'}</h1>
             <div className="form-row">
               <div className="form-group col-7">
                   <label>Domain</label>
-                  <input name="domain" type="text" ref={register} className={`form-control ${errors.domain ? 'is-invalid' : ''}`} />
+                  <input name="domain" type="hidden" ref={register} className={`form-control ${errors.domain ? 'is-invalid' : ''}`} />
                   <div className="invalid-feedback">{errors.domain?.message}</div>
               </div>
+
               <div className="form-group col-7">
-                  <label>Domain Handle</label>
-                  <input name="domhand" type="text" ref={register} className={`form-control ${errors.domhand ? 'is-invalid' : ''}`} />
-                  <div className="invalid-feedback">{errors.domhand?.message}</div>
+                  <label>Name</label>
+                  <input name="name" type="text" ref={register} className={`form-control ${errors.name ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">{errors.name?.message}</div>
               </div>
+
+              <div className="form-group col-7">
+                  <label>TTL</label>
+                  <input name="ttl" type="text" ref={register} className={`form-control ${errors.ttl ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">{errors.ttl?.message}</div>
+              </div>
+
+              <div className="form-group col-7">
+                  <label>Type</label>
+                  <input name="type" type="text" ref={register} className={`form-control ${errors.type ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">{errors.type?.message}</div>
+              </div>
+
+              <div className="form-group col-7">
+                  <label>Record</label>
+                  <input name="record" type="text" ref={register} className={`form-control ${errors.record ? 'is-invalid' : ''}`} />
+                  <div className="invalid-feedback">{errors.record?.message}</div>
+              </div>
+
 
           </div>
 
